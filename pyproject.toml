@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "camera-and-video-map"
+version = "0.1.0"
+description = ""
+authors = ["Alecsey Shitiy <2003lesha2003@mail.ru>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.0"
+black = "^24.2.0"
+pre-commit = "^3.6.0"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = '\.pyi?$'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
