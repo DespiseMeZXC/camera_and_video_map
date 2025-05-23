@@ -1,15 +1,17 @@
 import uvicorn
+from config import settings
 from fastapi import FastAPI
 
 app = FastAPI(
-    title="Карта с камерами и видео",
-    description="Карта с камерами и видео",
-    version="0.1.0",
+    title=settings.app_name,
+    description=settings.app_description,
+    version=settings.app_version,
 )
 
 
 @app.get("/health_check")
 def health_check():
+    """Проверка работоспособности сервера."""
     return {"status": "ok"}
 
 
