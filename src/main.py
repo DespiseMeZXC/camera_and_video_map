@@ -1,11 +1,13 @@
 import uvicorn
-from config import settings
 from fastapi import FastAPI
 
+from config import settings
+
+
 app = FastAPI(
-    title=settings.app_name,
-    description=settings.app_description,
-    version=settings.app_version,
+    title=settings.app.app_name,
+    description=settings.app.app_description,
+    version=settings.app.app_version,
 )
 
 
@@ -16,4 +18,4 @@ def health_check():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)

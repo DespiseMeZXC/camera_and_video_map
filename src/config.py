@@ -25,7 +25,7 @@ class DBSettings(BaseSettings):
         env_prefix = "DB_"
 
 
-class Settings(BaseSettings):
+class AppSettings(BaseSettings):
     """Настройки приложения."""
 
     app_name: str = "Карта с камерами и видео"
@@ -33,11 +33,11 @@ class Settings(BaseSettings):
     app_description: str = "Карта с камерами и видео"
     app_debug: bool = True
 
-    @property
-    def database_url(self) -> str:
-        """Получить URL для подключения к базе данных."""
-        db = DBSettings()
-        return db.database_url
+class Settings(BaseSettings):
+    """Настройки приложения."""
+
+    app: AppSettings = AppSettings()
+    db: DBSettings = DBSettings()
 
 
 settings = Settings()
