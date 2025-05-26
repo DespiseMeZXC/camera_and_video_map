@@ -8,13 +8,13 @@ class DBSettings(BaseSettings):
     port: int
     name: str
     user: str
-    pass_: str
+    password: str
 
     @property
     def database_url(self) -> str:
         """Получить URL для подключения к базе данных."""
         return (
-            f"postgresql+asyncpg://{self.user}:{self.pass_}@"
+            f"postgresql+asyncpg://{self.user}:{self.password}@"
             f"{self.host}:{self.port}/{self.name}"
         )
 
