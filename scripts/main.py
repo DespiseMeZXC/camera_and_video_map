@@ -3,7 +3,7 @@ import sys
 
 
 def start():
-    os.system("python src/manage.py makemigrations")
+    os.system("python src/main.py")
 
 
 def migrate():
