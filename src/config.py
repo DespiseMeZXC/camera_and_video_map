@@ -28,10 +28,11 @@ class DBSettings(BaseSettings):
 class AppSettings(BaseSettings):
     """Настройки приложения."""
 
-    app_name: str = "Карта с камерами и видео"
-    app_version: str = "0.1.0"
-    app_description: str = "Карта с камерами и видео"
-    app_debug: bool = True
+    name: str = "Карта с камерами и видео"
+    version: str = "0.1.0"
+    description: str = "Карта с камерами и видео"
+    debug: bool = True
+
 
 class Settings(BaseSettings):
     """Настройки приложения."""

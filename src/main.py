@@ -1,13 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
 
-from config import settings
-
+from src.config import settings
 
 app = FastAPI(
-    title=settings.app.app_name,
-    description=settings.app.app_description,
-    version=settings.app.app_version,
+    title=settings.app.name,
+    description=settings.app.description,
+    version=settings.app.version,
 )
 
 

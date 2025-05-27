@@ -17,8 +17,8 @@ class Database:
     def __init__(self) -> None:
         """Инициализация подключения к базе данных."""
         self.engine = create_async_engine(
-            settings.database_url,
-            echo=settings.app_debug,
+            settings.db.database_url,
+            echo=settings.app.debug,
             future=True,
         )
         self.session = sessionmaker(
