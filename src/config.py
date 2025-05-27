@@ -18,11 +18,31 @@ class EnvSettings(BaseSettings):
     MIDDLEWARE_ALLOW_METHODS: str = Field("*", alias="ALLOW_METHODS")
     MIDDLEWARE_ALLOW_HEADERS: str = Field("*", alias="ALLOW_HEADERS")
 
+    # JWT settings
+    JWT_SECRET_KEY: str = Field(..., alias="SECRET_KEY")
+    JWT_REFRESH_SECRET_KEY: str = Field(..., alias="REFRESH_SECRET_KEY")
+    JWT_ALGORITHM: str = Field("HS256", alias="ALGORITHM")
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(
+        30, alias="ACCESS_TOKEN_EXPIRE_MINUTES"
+    )
+    JWT_REFRESH_TOKEN_EXPIRE_DAYS: int = Field(7, alias="REFRESH_TOKEN_EXPIRE_DAYS")
+
     class Config:
         """Конфигурация для настроек."""
 
         env_file = ".env"
         populate_by_name = True
+
+
+class JWTSettings:
+    """Настройки JWT."""
+
+    def __init__(self, env: EnvSettings):
+        self.secret_key = env.JWT_SECRET_KEY
+        self.refresh_secret_key = env.JWT_REFRESH_SECRET_KEY
+        self.algorithm = env.JWT_ALGORITHM
+        self.access_token_expire_minutes = env.JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+        self.refresh_token_expire_days = env.JWT_REFRESH_TOKEN_EXPIRE_DAYS
 
 
 class MiddlewareSettings:
@@ -94,6 +114,7 @@ class Settings:
         self.app = AppSettings()
         self.middleware = MiddlewareSettings(self._env)
         self.db = DBSettings(self._env)
+        self.jwt = JWTSettings(self._env)
 
 
 settings = Settings()

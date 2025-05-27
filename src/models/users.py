@@ -17,10 +17,9 @@ class User(Base):
         primary_key=True,
         comment="Идентификатор пользователя",
         default=uuid.uuid4,
-        # server_default=text("gen_random_uuid()")
     )
     full_name: Mapped[str] = mapped_column(String, comment="ФИО")
-    email: Mapped[str] = mapped_column(String, comment="Email")
+    email: Mapped[str] = mapped_column(String, comment="Email", unique=True)
     password: Mapped[str] = mapped_column(String, comment="Пароль")
     is_active: Mapped[bool] = mapped_column(Boolean, comment="Активен", default=True)
     date_created: Mapped[DateTime] = mapped_column(
