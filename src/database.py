@@ -36,11 +36,7 @@ class Database:
             expire_on_commit=False,
         )
 
-    async def get_session(self) -> AsyncGenerator[AsyncSession, Any]:
+    async def get_async_session(self) -> AsyncGenerator[AsyncSession, Any]:
         """Получить сессию для работы с базой данных."""
         async with self.session() as session:
             yield session
-
-
-# Создаем экземпляр базы данных
-db = Database()
