@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Alecsey Shitiy <2003lesha2003@mail.ru>"]
 readme = "README.md"
-package-mode = false
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -42,3 +42,8 @@ include = '\.pyi?$'
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "scripts.main:start"
+makemigrations = "scripts.main:makemigrations"
+migrate = "scripts.main:migrate"
