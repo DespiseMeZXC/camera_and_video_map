@@ -1,0 +1,109 @@
+"""camera and user models created
+
+Revision ID: a543734887bd
+Revises:
+Create Date: 2025-05-27 17:12:33.559582
+
+"""
+
+from collections.abc import Sequence
+
+import sqlalchemy as sa
+from alembic import op
+
+# revision identifiers, used by Alembic.
+revision: str = "a543734887bd"
+down_revision: str | None = None
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
+
+
+def upgrade() -> None:
+    """Upgrade schema."""
+    op.create_table(
+        "d_camera",
+        sa.Column("id", sa.UUID(), nullable=False, comment="Идентификатор камеры"),
+        sa.Column("camera_id", sa.String(), nullable=False, comment="Номер камеры"),
+        sa.Column(
+            "camera_class_cd",
+            sa.Integer(),
+            nullable=False,
+            comment="Идентификатор класса камеры",
+        ),
+        sa.Column("camera_class", sa.String(), nullable=False, comment="Класс камеры"),
+        sa.Column("model", sa.String(), nullable=False, comment="Модель"),
+        sa.Column(
+            "camera_name",
+            sa.String(),
+            nullable=False,
+            comment="Название камеры",
+        ),
+        sa.Column("camera_place", sa.String(), nullable=False, comment="Адрес"),
+        sa.Column(
+            "camera_place_cd",
+            sa.Integer(),
+            nullable=False,
+            comment="Идентификатор адреса",
+        ),
+        sa.Column(
+            "serial_number",
+            sa.String(),
+            nullable=False,
+            comment="Серийный номер",
+        ),
+        sa.Column(
+            "camera_type_cd",
+            sa.Integer(),
+            nullable=False,
+            comment="Идентификатор типа камеры",
+        ),
+        sa.Column("camera_type", sa.String(), nullable=False, comment="Тип камеры"),
+        sa.Column("camera_latitude", sa.Float(), nullable=False, comment="Широта"),
+        sa.Column("camera_longitude", sa.Float(), nullable=False, comment="Долгота"),
+        sa.Column(
+            "archive",
+            sa.Integer(),
+            nullable=False,
+            comment="Признак архивной записи",
+        ),
+        sa.Column("azimuth", sa.Integer(), nullable=False, comment="Азимут"),
+        sa.Column(
+            "date_created",
+            sa.DateTime(),
+            nullable=False,
+            comment="Дата и время добавления записи в таблицу (техн.)",
+        ),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_d_camera")),
+    )
+    op.create_table(
+        "d_user",
+        sa.Column(
+            "id",
+            sa.UUID(),
+            nullable=False,
+            comment="Идентификатор пользователя",
+        ),
+        sa.Column("full_name", sa.String(), nullable=False, comment="ФИО"),
+        sa.Column("email", sa.String(), nullable=False, comment="Email"),
+        sa.Column("password", sa.String(), nullable=False, comment="Пароль"),
+        sa.Column("is_active", sa.Boolean(), nullable=False, comment="Активен"),
+        sa.Column(
+            "date_created",
+            sa.DateTime(),
+            nullable=False,
+            comment="Дата и время добавления записи в таблицу (техн.)",
+        ),
+        sa.Column(
+            "date_updated",
+            sa.DateTime(),
+            nullable=False,
+            comment="Дата и время обновления записи в таблицу (техн.)",
+        ),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_d_user")),
+    )
+
+
+def downgrade() -> None:
+    """Downgrade schema."""
+    op.drop_table("d_user")
+    op.drop_table("d_camera")

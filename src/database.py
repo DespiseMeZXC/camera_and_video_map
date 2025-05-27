@@ -1,14 +1,23 @@
 from collections.abc import AsyncGenerator
 from typing import Any
 
+from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, declared_attr, sessionmaker
 
 from src.config import settings
 
 
 class Base(DeclarativeBase):
     """Базовый класс для всех моделей."""
+
+    metadata = MetaData(naming_convention=settings.db.naming_convention)
+
+    @declared_attr
+    @classmethod
+    def __tablename__(cls) -> str:
+        """Получить имя таблицы."""
+        return cls.__name__.lower()
 
 
 class Database:
