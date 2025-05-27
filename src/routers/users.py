@@ -38,3 +38,17 @@ async def register(
             detail="User already exists",
         )
     return BaseUserSchema.model_validate(db_user)
+
+
+@router.post("/refresh", response_model=TokenSchema)
+async def refresh(
+    refresh_token: str,
+    crud: UserCrudServiceInterface = Depends(get_user_crud),  # noqa: B008
+):
+    token = await crud.refresh_token(refresh_token)
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid refresh token",
+        )
+    return token

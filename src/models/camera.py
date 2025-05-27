@@ -1,18 +1,19 @@
+import uuid
+
 from sqlalchemy import UUID, DateTime, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.database import Base
+from src.db_base import Base
 
 
 class Camera(Base):
     """Модель камер"""
 
     __tablename__ = "d_camera"
-
     id: Mapped[UUID] = mapped_column(
-        UUID, primary_key=True, comment="Идентификатор камеры"
+        UUID, primary_key=True, comment="Идентификатор камеры", default=uuid.uuid4
     )
-    camera_id: Mapped[str] = mapped_column(String, comment="Номер камеры")
+    camera_id: Mapped[str] = mapped_column(Integer, comment="Номер камеры")
     camera_class_cd: Mapped[int] = mapped_column(
         Integer, comment="Идентификатор класса камеры"
     )

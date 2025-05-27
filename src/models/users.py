@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import UUID, Boolean, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.database import Base
+from src.db_base import Base
 
 
 class User(Base):

@@ -48,3 +48,15 @@ class UserCrudService(UserCrudServiceInterface):
             refresh_token = AuthUtils.create_refresh_token(user.id, user.email)
             token = TokenSchema(access_token=token, refresh_token=refresh_token)
             return token
+
+    async def refresh_token(self, refresh_token: str) -> TokenSchema | None:
+        async for session in self.db.get_async_session():
+            query = select(User).where(User.refresh_token == refresh_token)
+            result = await session.execute(query)
+            user = result.scalar_one_or_none()
+            if not user:
+                return None
+            token = AuthUtils.create_access_token(user.id, user.email)
+            refresh_token = AuthUtils.create_refresh_token(user.id, user.email)
+            token = TokenSchema(access_token=token, refresh_token=refresh_token)
+            return token

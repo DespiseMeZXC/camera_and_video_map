@@ -1,8 +1,8 @@
-"""user and camera models add
+"""camera and user model updated
 
-Revision ID: bc0ea6654ace
+Revision ID: d34141ff3565
 Revises:
-Create Date: 2025-05-27 18:00:03.002983
+Create Date: 2025-05-28 02:09:24.232269
 
 """
 
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "bc0ea6654ace"
+revision: str = "d34141ff3565"
 down_revision: str | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
@@ -24,7 +24,7 @@ def upgrade() -> None:
     op.create_table(
         "d_camera",
         sa.Column("id", sa.UUID(), nullable=False, comment="Идентификатор камеры"),
-        sa.Column("camera_id", sa.String(), nullable=False, comment="Номер камеры"),
+        sa.Column("camera_id", sa.Integer(), nullable=False, comment="Номер камеры"),
         sa.Column(
             "camera_class_cd",
             sa.Integer(),
@@ -74,7 +74,7 @@ def upgrade() -> None:
             nullable=False,
             comment="Дата и время добавления записи в таблицу (техн.)",
         ),
-        sa.PrimaryKeyConstraint("id", name=op.f("pk_d_camera")),
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "user",
@@ -106,7 +106,8 @@ def upgrade() -> None:
             nullable=True,
             comment="Идентификатор организации",
         ),
-        sa.PrimaryKeyConstraint("id", name=op.f("pk_user")),
+        sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("email"),
     )
     # ### end Alembic commands ###
 

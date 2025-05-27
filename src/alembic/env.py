@@ -8,7 +8,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.config import settings
-from src.database import Base
+from src.db_base import Base
 from src.models import Camera, User
 
 tables = [User, Camera]
