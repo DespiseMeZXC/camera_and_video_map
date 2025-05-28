@@ -9,9 +9,9 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.config import settings
 from src.db_base import Base
-from src.models import Camera, User
+from src.models import Camera, User, Video
 
-tables = [User, Camera]
+tables = [User, Camera, Video]
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
