@@ -1,9 +1,10 @@
 import uuid
 
 from sqlalchemy import UUID, DateTime, Float, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db_base import Base
+from src.models.video import Video
 
 
 class Camera(Base):
@@ -36,3 +37,5 @@ class Camera(Base):
     date_created: Mapped[DateTime] = mapped_column(
         DateTime, comment="Дата и время добавления записи в таблицу (техн.)"
     )
+    # Relationships
+    videos: Mapped[list["Video"]] = relationship("Video", back_populates="camera")

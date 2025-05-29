@@ -2,9 +2,10 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import UUID, Boolean, DateTime, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db_base import Base
+from src.models.video import Video
 
 
 class User(Base):
@@ -35,3 +36,4 @@ class User(Base):
     organization: Mapped[UUID] = mapped_column(
         UUID, comment="Идентификатор организации", nullable=True
     )
+    videos: Mapped[list[Video]] = relationship(back_populates="author")

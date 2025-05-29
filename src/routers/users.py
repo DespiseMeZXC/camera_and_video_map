@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from src.dependencies.users import get_user_crud
-from src.interfaces.users import UserCrudServiceInterface
+from src.dependencies.users import get_users_crud
+from src.interfaces.users import UsersCrudServiceInterface
 from src.schemas.users import (
     AuthBodySchema,
     BaseUserSchema,
@@ -9,14 +9,14 @@ from src.schemas.users import (
     TokenSchema,
 )
 
-router = APIRouter(prefix="/users", tags=["user"])
+router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.post("/auth", response_model=TokenSchema)
 async def auth(
     user: AuthBodySchema,
-    crud: UserCrudServiceInterface = Depends(get_user_crud),  # noqa: B008
-):
+    crud: UsersCrudServiceInterface = Depends(get_users_crud),  # noqa: B008
+) -> TokenSchema:
     token = await crud.authenticate(user.email, user.password)
     if not token:
         raise HTTPException(
@@ -29,7 +29,7 @@ async def auth(
 @router.post("/register", response_model=BaseUserSchema)
 async def register(
     user: CreateBodyUserSchema,
-    crud: UserCrudServiceInterface = Depends(get_user_crud),  # noqa: B008
+    crud: UsersCrudServiceInterface = Depends(get_users_crud),  # noqa: B008
 ):
     db_user = await crud.create_user(user)
     if not db_user:
@@ -43,7 +43,7 @@ async def register(
 @router.post("/refresh", response_model=TokenSchema)
 async def refresh(
     refresh_token: str,
-    crud: UserCrudServiceInterface = Depends(get_user_crud),  # noqa: B008
+    crud: UsersCrudServiceInterface = Depends(get_users_crud),  # noqa: B008
 ):
     token = await crud.refresh_token(refresh_token)
     if not token:

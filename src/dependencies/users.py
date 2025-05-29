@@ -1,6 +1,6 @@
-from src.crud.users import UserCrudService
-from src.interfaces.users import UserCrudServiceInterface
+from src.crud.users import UsersCrudService
+from src.interfaces.users import UsersCrudServiceInterface
 
 
-def get_user_crud() -> UserCrudServiceInterface:
-    return UserCrudService()
+def get_users_crud() -> UsersCrudServiceInterface:
+    return UsersCrudService()

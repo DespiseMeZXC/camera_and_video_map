@@ -2,8 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.config import settings
-from src.routers.cameras import router as camera_router
-from src.routers.users import router as user_router
+from src.routers.cameras import router as cameras_router
+from src.routers.users import router as users_router
+from src.routers.videos import router as videos_router
 
 app = FastAPI(
     title=settings.app.name,
@@ -20,8 +21,9 @@ app.add_middleware(
 )
 
 # Подключаем роутеры
-app.include_router(user_router)
-app.include_router(camera_router)
+app.include_router(users_router)
+app.include_router(cameras_router)
+app.include_router(videos_router)
 
 
 @app.get("/health_check")

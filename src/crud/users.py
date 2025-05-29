@@ -3,13 +3,13 @@ import hashlib
 from sqlalchemy import select
 
 from src.database import Database
-from src.interfaces.users import UserCrudServiceInterface
+from src.interfaces.users import UsersCrudServiceInterface
 from src.models import User
 from src.schemas.users import CreateBodyUserSchema, TokenSchema
-from src.utils.jwt import AuthUtils
+from src.utils.jwt import JWTService
 
 
-class UserCrudService(UserCrudServiceInterface):
+class UsersCrudService(UsersCrudServiceInterface):
     """Сервис для работы с пользователями в базе данных."""
 
     def __init__(self):
@@ -33,6 +33,7 @@ class UserCrudService(UserCrudServiceInterface):
                 await session.rollback()
                 print(e)
                 return None
+        return None
 
     async def authenticate(self, email: str, password: str) -> TokenSchema | None:
         async for session in self.db.get_async_session():
@@ -44,10 +45,11 @@ class UserCrudService(UserCrudServiceInterface):
             user = result.scalar_one_or_none()
             if not user:
                 return None
-            token = AuthUtils.create_access_token(user.id, user.email)
-            refresh_token = AuthUtils.create_refresh_token(user.id, user.email)
+            token = JWTService.create_access_token(user.id, user.email)
+            refresh_token = JWTService.create_refresh_token(user.id, user.email)
             token = TokenSchema(access_token=token, refresh_token=refresh_token)
             return token
+        return None
 
     async def refresh_token(self, refresh_token: str) -> TokenSchema | None:
         async for session in self.db.get_async_session():
@@ -56,7 +58,8 @@ class UserCrudService(UserCrudServiceInterface):
             user = result.scalar_one_or_none()
             if not user:
                 return None
-            token = AuthUtils.create_access_token(user.id, user.email)
-            refresh_token = AuthUtils.create_refresh_token(user.id, user.email)
+            token = JWTService.create_access_token(user.id, user.email)
+            refresh_token = JWTService.create_refresh_token(user.id, user.email)
             token = TokenSchema(access_token=token, refresh_token=refresh_token)
             return token
+        return None

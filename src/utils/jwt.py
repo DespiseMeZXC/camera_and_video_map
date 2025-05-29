@@ -7,12 +7,12 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from src.config import settings
-from src.interfaces.users import UserTokenServiceInterface
+from src.interfaces.users import JWTServiceInterface
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/auth")
 
 
-class AuthUtils(UserTokenServiceInterface):
+class JWTService(JWTServiceInterface):
     """Утилиты для аутентификации."""
 
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -58,7 +58,7 @@ class AuthUtils(UserTokenServiceInterface):
         )
 
     @staticmethod
-    def get_current_user(token: str = Depends(oauth2_scheme)):
+    def get_current_user(token: str = Depends(oauth2_scheme)) -> UUID:
         try:
             payload = jwt.decode(
                 token, settings.jwt.secret_key, algorithms=[settings.jwt.algorithm]
